@@ -26,9 +26,14 @@ func main() {
 
 ## Constructor
 
-### `NewDisplay(text string) *Display`
+### `NewDisplay(text string, opts ...DisplayOption) *Display`
 
 - `text`: The string of text to be displayed.
+- `opts`: Optional configuration functions (functional options pattern).
+
+### Available Options
+
+- `WithDisplayBorder(show bool)`: Determines if the display should render a full border box around the text (top, bottom, left, right).
 
 ## Behavior
 
