@@ -12,18 +12,31 @@ type CheckboxList struct {
 	options     []string
 	checked     *[]bool
 	internalIdx int
+	onChange    func(idx int)
 }
 
-func NewCheckboxList(label string, options []string, checked *[]bool) *CheckboxList {
+type CheckboxListOption func(*CheckboxList)
+
+func WithCheckboxListOnChange(onChange func(idx int)) CheckboxListOption {
+	return func(c *CheckboxList) {
+		c.onChange = onChange
+	}
+}
+
+func NewCheckboxList(label string, options []string, checked *[]bool, opts ...CheckboxListOption) *CheckboxList {
 	if len(*checked) == 0 {
 		*checked = make([]bool, len(options))
 	}
-	return &CheckboxList{
+	c := &CheckboxList{
 		label:       label,
 		options:     options,
 		checked:     checked,
 		internalIdx: 0,
 	}
+	for _, opt := range opts {
+		opt(c)
+	}
+	return c
 }
 
 func (c *CheckboxList) GetName() string    { return "checkboxlist" }
@@ -64,6 +77,9 @@ func (c *CheckboxList) HandleInput(key []byte) bool {
 		switch {
 		case key[0] == menu.KeySpace || key[0] == menu.KeyEnter:
 			(*c.checked)[c.internalIdx] = !(*c.checked)[c.internalIdx]
+			if c.onChange != nil {
+				c.onChange(c.internalIdx)
+			}
 			return true
 		}
 	}

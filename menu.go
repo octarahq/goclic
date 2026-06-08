@@ -80,7 +80,7 @@ func (m *Menu) Start() error {
 			fmt.Print("\033[K" + comp.Render(isFocused) + "\r\n")
 		}
 
-		buf := make([]byte, 3)
+		buf := make([]byte, 1024)
 		n, err := os.Stdin.Read(buf)
 		if err != nil {
 			return err

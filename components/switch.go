@@ -12,19 +12,23 @@ type Switch struct {
 	onChange func(value bool)
 }
 
-func NewSwitch(label string, value *bool) *Switch {
-	return &Switch{
-		label: label,
-		value: value,
+type SwitchOption func(*Switch)
+
+func WithSwitchOnChange(onChange func(bool)) SwitchOption {
+	return func(s *Switch) {
+		s.onChange = onChange
 	}
 }
 
-func NewSwitchC(label string, value *bool, onChange func(bool)) *Switch {
-	return &Switch{
-		label:    label,
-		value:    value,
-		onChange: onChange,
+func NewSwitch(label string, value *bool, opts ...SwitchOption) *Switch {
+	s := &Switch{
+		label: label,
+		value: value,
 	}
+	for _, opt := range opts {
+		opt(s)
+	}
+	return s
 }
 
 func (d *Switch) GetName() string {

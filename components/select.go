@@ -11,21 +11,24 @@ type Select struct {
 	onChange    func(idx int)
 }
 
-func NewSelect(label string, options []string, selectedIdx *int) *Select {
-	return &Select{
-		label:       label,
-		options:     options,
-		selectedIdx: selectedIdx,
+type SelectOption func(*Select)
+
+func WithSelectOnChange(onChange func(idx int)) SelectOption {
+	return func(s *Select) {
+		s.onChange = onChange
 	}
 }
 
-func NewSelectC(label string, options []string, selectedIdx *int, onChange func(idx int)) *Select {
-	return &Select{
+func NewSelect(label string, options []string, selectedIdx *int, opts ...SelectOption) *Select {
+	s := &Select{
 		label:       label,
 		options:     options,
 		selectedIdx: selectedIdx,
-		onChange:    onChange,
 	}
+	for _, opt := range opts {
+		opt(s)
+	}
+	return s
 }
 
 func (d *Select) GetName() string {

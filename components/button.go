@@ -11,11 +11,22 @@ type Button struct {
 	onClick func()
 }
 
-func NewButton(label string, onClick func()) *Button {
-	return &Button{
-		label:   label,
-		onClick: onClick,
+type ButtonOption func(*Button)
+
+func WithButtonOnClick(onClick func()) ButtonOption {
+	return func(b *Button) {
+		b.onClick = onClick
 	}
+}
+
+func NewButton(label string, opts ...ButtonOption) *Button {
+	b := &Button{
+		label: label,
+	}
+	for _, opt := range opts {
+		opt(b)
+	}
+	return b
 }
 
 func (d *Button) GetName() string {
