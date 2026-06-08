@@ -1,6 +1,9 @@
 package components
 
-import "fmt"
+import (
+	"fmt"
+	menu "github.com/octarahq/goclic"
+)
 
 type Switch struct {
 	label    string
@@ -44,7 +47,7 @@ func (l *Switch) Render(focused bool) string {
 }
 
 func (l *Switch) HandleInput(key []byte) bool {
-	if len(key) == 1 && (key[0] == 13 || key[0] == 32) {
+	if len(key) == 1 && (key[0] == menu.KeyEnter || key[0] == menu.KeySpace) {
 		*l.value = !*l.value
 
 		if l.onChange != nil {

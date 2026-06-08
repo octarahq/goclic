@@ -77,13 +77,13 @@ func (m *Menu) Start() error {
 			return err
 		}
 
-		if n == 1 && buf[0] == 3 {
+		if n == 1 && buf[0] == KeyCtrlC {
 			break
 		}
 
-		if n == 3 && buf[0] == 27 && buf[1] == 91 {
+		if n == 3 && buf[0] == KeyEsc && buf[1] == 91 {
 			switch buf[2] {
-			case 65:
+			case ArrowUp:
 				for {
 					if m.idX > 0 {
 						m.idX--
@@ -96,7 +96,7 @@ func (m *Menu) Start() error {
 				}
 				continue
 
-			case 66:
+			case ArrowDown:
 				for {
 					if m.idX < len(m.components)-1 {
 						m.idX++
