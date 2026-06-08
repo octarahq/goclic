@@ -13,6 +13,7 @@ func main() {
 	volume := 0
 	var checked []bool
 	var idxChecked int
+	var value string
 
 	menu.Add(components.NewDisplay("test"))
 	menu.Add(components.NewSwitch("Darkmode", &darkMode))
@@ -20,6 +21,7 @@ func main() {
 	menu.Add(components.NewSlider("Volume", &volume, 0, 10, 1))
 	menu.Add(components.NewCheckboxList("Test list", []string{"Oui", "Bien sur", "totalement"}, &checked))
 	menu.Add(components.NewCheckbox("Test", []string{"Oui", "Bien sur", "totalement"}, &idxChecked))
+	menu.Add(components.NewInput("Truc a dire ?", &value))
 
 	menu.Start()
 }

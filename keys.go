@@ -1,15 +1,16 @@
 package menu
 
 const (
-	KeyTab       byte = 9
-	KeyEnter     byte = 13
-	KeyEsc       byte = 27
-	KeySpace     byte = 32
-	KeyBackspace byte = 127
-	KeyCtrlC     byte = 3
-	KeyCtrlD     byte = 4
+	KeyTab         byte = 9
+	KeyEnter       byte = 13
+	KeyEsc         byte = 27
+	KeySpace       byte = 32
+	KeyBackspace   byte = 127
+	KeyCtrlC       byte = 3
+	KeyCtrlD       byte = 4
+	KeyCtrlV       byte = 22
 	KeyOpenBracket byte = 91
-	KeySeqLen    byte = 3
+	KeySeqLen      byte = 3
 )
 
 const (
