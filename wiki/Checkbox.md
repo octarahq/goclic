@@ -29,11 +29,16 @@ func main() {
 
 ## Constructor
 
-### `NewCheckbox(label string, options []string, selected *int) *Checkbox`
+### `NewCheckbox(label string, options []string, selected *int, opts ...CheckboxOption) *Checkbox`
 
 - `label`: The title displayed above the checkbox options.
 - `options`: A slice of strings representing the available choices.
 - `selected`: A pointer to an integer that will store the index of the currently selected option.
+- `opts`: Optional configuration functions (functional options pattern).
+
+### Available Options
+
+- `WithCheckboxOnChange(func(idx int))`: Executes a callback function whenever the selected checkbox option changes, passing the index of the newly selected option.
 
 ## Behavior
 
