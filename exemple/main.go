@@ -8,7 +8,10 @@ import (
 func main() {
 	menu := menu.NewMenu()
 
+	darkMode := false
+
 	menu.Add(components.NewDisplay("test"))
+	menu.Add(components.NewSwitch("Darkmode", &darkMode))
 
 	menu.Start()
 }
