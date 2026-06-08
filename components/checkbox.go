@@ -10,7 +10,7 @@ import (
 type Checkbox struct {
 	label       string
 	options     []string
-	checked     int
+	checked     *int
 	internalIdx int
 }
 
@@ -18,7 +18,7 @@ func NewCheckbox(label string, options []string, checked *int) *Checkbox {
 	return &Checkbox{
 		label:       label,
 		options:     options,
-		checked:     *checked,
+		checked:     checked,
 		internalIdx: 0,
 	}
 }
@@ -37,7 +37,7 @@ func (c *Checkbox) Render(focused bool) string {
 
 	for i, option := range c.options {
 		box := " "
-		if i == c.checked {
+		if c.checked != nil && i == *c.checked {
 			box = "X"
 		}
 
@@ -60,7 +60,9 @@ func (c *Checkbox) HandleInput(key []byte) bool {
 	if len(key) == 1 {
 		switch {
 		case key[0] == menu.KeySpace || key[0] == menu.KeyEnter:
-			c.checked = c.internalIdx
+			if c.checked != nil {
+				*c.checked = c.internalIdx
+			}
 			return true
 		}
 	}

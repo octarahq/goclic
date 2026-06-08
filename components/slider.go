@@ -7,7 +7,7 @@ import (
 
 type Slider struct {
 	label    string
-	value    int
+	value    *int
 	minValue int
 	maxValue int
 	step     int
@@ -17,7 +17,7 @@ type Slider struct {
 func NewSlider(label string, value *int, minValue int, maxValue int, step int) *Slider {
 	return &Slider{
 		label:    label,
-		value:    *value,
+		value:    value,
 		minValue: minValue,
 		maxValue: maxValue,
 		step:     step,
@@ -27,7 +27,7 @@ func NewSlider(label string, value *int, minValue int, maxValue int, step int) *
 func NewSliderC(label string, value *int, minValue int, maxValue int, step int, onChange func(idx int)) *Slider {
 	return &Slider{
 		label:    label,
-		value:    *value,
+		value:    value,
 		minValue: minValue,
 		maxValue: maxValue,
 		step:     step,
@@ -51,9 +51,14 @@ func (l *Slider) Render(focused bool) string {
 	width := 10
 	rng := l.maxValue - l.minValue
 	filled := 0
+	val := 0
+
+	if l.value != nil {
+		val = *l.value
+	}
 
 	if rng > 0 {
-		filled = (l.value - l.minValue) * width / rng
+		filled = (val - l.minValue) * width / rng
 	}
 
 	if filled < 0 {
@@ -69,27 +74,27 @@ func (l *Slider) Render(focused bool) string {
 	)
 
 	if focused {
-		return fmt.Sprintf("> %s : %s %d", l.label, slider, l.value)
+		return fmt.Sprintf("> %s : %s %d", l.label, slider, val)
 	}
-	return fmt.Sprintf("  %s : %s %d", l.label, slider, l.value)
+	return fmt.Sprintf("  %s : %s %d", l.label, slider, val)
 }
 
 func (l *Slider) HandleInput(key []byte) bool {
 	if len(key) > 0 && key[0] == 27 && len(key) > 2 {
 		if key[2] == 'C' {
-			if l.value+l.step <= l.maxValue {
-				l.value += l.step
+			if l.value != nil && *l.value+l.step <= l.maxValue {
+				*l.value += l.step
 			}
-			if l.onChange != nil {
-				l.onChange(l.value)
+			if l.onChange != nil && l.value != nil {
+				l.onChange(*l.value)
 			}
 			return true
 		} else if key[2] == 'D' {
-			if l.value-l.step >= l.minValue {
-				l.value -= l.step
+			if l.value != nil && *l.value-l.step >= l.minValue {
+				*l.value -= l.step
 			}
-			if l.onChange != nil {
-				l.onChange(l.value)
+			if l.onChange != nil && l.value != nil {
+				l.onChange(*l.value)
 			}
 			return true
 		}

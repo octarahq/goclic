@@ -8,21 +8,21 @@ import (
 
 type Input struct {
 	label    string
-	value    string
+	value    *string
 	onChange func(value string)
 }
 
 func NewInput(label string, value *string) *Input {
 	return &Input{
 		label: label,
-		value: *value,
+		value: value,
 	}
 }
 
 func NewInputC(label string, value *string, onChange func(string)) *Input {
 	return &Input{
 		label:    label,
-		value:    *value,
+		value:    value,
 		onChange: onChange,
 	}
 }
@@ -40,10 +40,14 @@ func (d *Input) IsSelectable() bool {
 }
 
 func (l *Input) Render(focused bool) string {
-	if focused {
-		return fmt.Sprintf("> %s [%s]", l.label, l.value)
+	val := ""
+	if l.value != nil {
+		val = *l.value
 	}
-	return fmt.Sprintf("  %s [%s]", l.label, l.value)
+	if focused {
+		return fmt.Sprintf("> %s [%s]", l.label, val)
+	}
+	return fmt.Sprintf("  %s [%s]", l.label, val)
 }
 
 func (l *Input) HandleInput(key []byte) bool {
@@ -51,10 +55,10 @@ func (l *Input) HandleInput(key []byte) bool {
 		b := key[0]
 
 		if b == 8 || b == 127 {
-			if len(l.value) > 0 {
-				l.value = l.value[:len(l.value)-1]
+			if l.value != nil && len(*l.value) > 0 {
+				*l.value = (*l.value)[:len(*l.value)-1]
 				if l.onChange != nil {
-					l.onChange(l.value)
+					l.onChange(*l.value)
 				}
 			}
 			return true
@@ -65,9 +69,11 @@ func (l *Input) HandleInput(key []byte) bool {
 		}
 
 		if menu.IsPrintable(key) {
-			l.value += string(b)
-			if l.onChange != nil {
-				l.onChange(l.value)
+			if l.value != nil {
+				*l.value += string(b)
+				if l.onChange != nil {
+					l.onChange(*l.value)
+				}
 			}
 			return true
 		}
