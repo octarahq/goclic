@@ -16,10 +16,10 @@ func (d *Display) GetName() string {
 	return "display"
 }
 
+func (d *Display) IsSelectable() bool {
+	return false
+}
+
 func (l *Display) Render(focused bool) string {
-	if focused {
-		return fmt.Sprintf("> | %s |", l.label)
-	} else {
-		return fmt.Sprintf("  | %s |", l.label)
-	}
+	return fmt.Sprintf("  | %s |", l.label)
 }

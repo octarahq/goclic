@@ -31,12 +31,24 @@ func (m *Menu) Stop() {
 
 func (m *Menu) Start() error {
 	if len(m.components) == 0 {
-		return fmt.Errorf("impossible de lancer un menu sans composants")
+		return fmt.Errorf("Cannot start an empty menu")
+	}
+
+	m.idX = -1
+	for i, comp := range m.components {
+		if comp.IsSelectable() {
+			m.idX = i
+			break
+		}
+	}
+
+	if m.idX == -1 {
+		m.idX = 0
 	}
 
 	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
-		return fmt.Errorf("erreur initialisation mode brut: %w", err)
+		return fmt.Errorf("raw mode initialization error: %w", err)
 	}
 	defer term.Restore(int(os.Stdin.Fd()), oldState)
 
@@ -72,18 +84,28 @@ func (m *Menu) Start() error {
 		if n == 3 && buf[0] == 27 && buf[1] == 91 {
 			switch buf[2] {
 			case 65:
-				if m.idX > 0 {
-					m.idX--
-				} else {
-					m.idX = len(m.components) - 1
+				for {
+					if m.idX > 0 {
+						m.idX--
+					} else {
+						m.idX = len(m.components) - 1
+					}
+					if m.components[m.idX].IsSelectable() {
+						break
+					}
 				}
 				continue
 
 			case 66:
-				if m.idX < len(m.components)-1 {
-					m.idX++
-				} else {
-					m.idX = 0
+				for {
+					if m.idX < len(m.components)-1 {
+						m.idX++
+					} else {
+						m.idX = 0
+					}
+					if m.components[m.idX].IsSelectable() {
+						break
+					}
 				}
 				continue
 			}
