@@ -29,13 +29,18 @@ func main() {
 
 ## Constructor
 
-### `NewSlider(label string, value *int, min, max, step int) *Slider`
+### `NewSlider(label string, value *int, min, max, step int, opts ...SliderOption) *Slider`
 
 - `label`: The text label displayed next to the slider.
 - `value`: A pointer to an integer where the current value is stored. This also acts as the initial value when the menu is rendered.
 - `min`: The minimum allowed value.
 - `max`: The maximum allowed value.
 - `step`: The amount the value changes per key press.
+- `opts`: Optional configuration functions (functional options pattern).
+
+### Available Options
+
+- `WithSliderOnChange(func(idx int))`: Executes a callback function whenever the slider value changes.
 
 ## Behavior
 

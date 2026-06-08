@@ -14,25 +14,26 @@ type Slider struct {
 	onChange func(idx int)
 }
 
-func NewSlider(label string, value *int, minValue int, maxValue int, step int) *Slider {
-	return &Slider{
-		label:    label,
-		value:    value,
-		minValue: minValue,
-		maxValue: maxValue,
-		step:     step,
+type SliderOption func(*Slider)
+
+func WithSliderOnChange(onChange func(idx int)) SliderOption {
+	return func(s *Slider) {
+		s.onChange = onChange
 	}
 }
 
-func NewSliderC(label string, value *int, minValue int, maxValue int, step int, onChange func(idx int)) *Slider {
-	return &Slider{
+func NewSlider(label string, value *int, minValue int, maxValue int, step int, opts ...SliderOption) *Slider {
+	s := &Slider{
 		label:    label,
 		value:    value,
 		minValue: minValue,
 		maxValue: maxValue,
 		step:     step,
-		onChange: onChange,
 	}
+	for _, opt := range opts {
+		opt(s)
+	}
+	return s
 }
 
 func (d *Slider) GetName() string {
