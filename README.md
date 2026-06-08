@@ -10,6 +10,8 @@ go get github.com/octarahq/goclic
 
 ## Available components
 
+[Full documentation](https://github.com/octarahq/goclic/wiki)
+
 - `Display`: Text display.
 - `Switch`: On/Off toggle.
 - `Select`: Choose one option from a dropdown list.
