@@ -2,6 +2,7 @@ package components
 
 import (
 	"fmt"
+
 	menu "github.com/octarahq/goclic"
 )
 
@@ -28,6 +29,10 @@ func NewSwitchC(label string, value *bool, onChange func(bool)) *Switch {
 
 func (d *Switch) GetName() string {
 	return "switch"
+}
+
+func (d *Switch) Height() int {
+	return 1
 }
 
 func (d *Switch) IsSelectable() bool {

@@ -60,7 +60,16 @@ func (m *Menu) Start() error {
 
 	for m.running {
 		if !firstRender {
-			for i := 0; i < len(m.components); i++ {
+			linesToMove := 0
+			for _, comp := range m.components {
+				if multi, ok := comp.(interface{ Height() int }); ok {
+					linesToMove += multi.Height()
+				} else {
+					linesToMove += 1
+				}
+			}
+
+			for i := 0; i < linesToMove; i++ {
 				fmt.Print("\033[F")
 			}
 		}

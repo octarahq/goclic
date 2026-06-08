@@ -22,6 +22,10 @@ func (d *Button) GetName() string {
 	return "button"
 }
 
+func (d *Button) Height() int {
+	return 1
+}
+
 func (d *Button) IsSelectable() bool {
 	return true
 }

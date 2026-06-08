@@ -9,9 +9,15 @@ func main() {
 	menu := menu.NewMenu()
 
 	darkMode := false
+	idx := 0
+	volume := 0
+	var checked []bool
 
 	menu.Add(components.NewDisplay("test"))
 	menu.Add(components.NewSwitch("Darkmode", &darkMode))
+	menu.Add(components.NewSelect("Dificultée", []string{"Facile", "Moyen", "Difficile"}, &idx))
+	menu.Add(components.NewSlider("Volume", &volume, 0, 10, 1))
+	menu.Add(components.NewCheckboxList("Test", []string{"Oui", "Bien sur", "totalement"}, &checked))
 
 	menu.Start()
 }

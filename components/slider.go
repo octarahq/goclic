@@ -39,6 +39,10 @@ func (d *Slider) GetName() string {
 	return "slider"
 }
 
+func (d *Slider) Height() int {
+	return 1
+}
+
 func (d *Slider) IsSelectable() bool {
 	return true
 }

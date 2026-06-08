@@ -31,6 +31,10 @@ func (d *Input) GetName() string {
 	return "input"
 }
 
+func (d *Input) Height() int {
+	return 1
+}
+
 func (d *Input) IsSelectable() bool {
 	return true
 }

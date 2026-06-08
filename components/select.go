@@ -32,6 +32,10 @@ func (d *Select) GetName() string {
 	return "select"
 }
 
+func (d *Select) Height() int {
+	return 1
+}
+
 func (d *Select) IsSelectable() bool {
 	return true
 }
