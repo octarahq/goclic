@@ -25,10 +25,15 @@ func main() {
 
 ## Constructor
 
-### `NewSwitch(label string, value *bool) *Switch`
+### `NewSwitch(label string, value *bool, opts ...SwitchOption) *Switch`
 
 - `label`: The text description of the toggle.
 - `value`: A pointer to a boolean representing the state. Pass `true` initially if you want the switch to default to On.
+- `opts`: Optional configuration functions (functional options pattern).
+
+### Available Options
+
+- `WithSwitchOnChange(func(value bool))`: Executes a callback function whenever the switch state toggles.
 
 ## Behavior
 
