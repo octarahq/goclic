@@ -1,0 +1,60 @@
+name: Build and Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build and Upload Artifacts
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        include:
+          - os: linux
+            arch: amd64
+            goos: linux
+            goarch: amd64
+            binary_name: goclic-example-linux-amd64
+            
+          - os: windows
+            arch: amd64
+            goos: windows
+            goarch: amd64
+            binary_name: goclic-example-windows-amd64.exe
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21' 
+          
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Build Example Binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |
+          go build -ldflags="-s -w" -o ${{ matrix.binary_name }} exemple/main.go
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.binary_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Request Go Proxy Indexing
+        if: matrix.os == 'linux'
+        run: |
+          echo "Pinging Go proxy for module version ${{ github.ref_name }}..."
+          GOPROXY=proxy.golang.org go list -m github.com/octarahq/goclic@${{ github.ref_name }}

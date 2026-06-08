@@ -1,4 +1,6 @@
 # goclic
+[![Go Reference](https://pkg.go.dev/badge/github.com/octarahq/goclic.svg)](https://pkg.go.dev/github.com/octarahq/goclic)
+[![Go Report Card](https://goreportcard.com/badge/github.com/octarahq/goclic)](https://goreportcard.com/report/github.com/octarahq/goclic)
 
 A Go module for easily creating interactive command-line interfaces (CLI) with ready-to-use components.
 
