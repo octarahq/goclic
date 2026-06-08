@@ -25,10 +25,15 @@ func main() {
 
 ## Constructor
 
-### `NewInput(label string, value *string) *Input`
+### `NewInput(label string, value *string, opts ...InputOption) *Input`
 
 - `label`: The prompt or label displayed next to the input field.
 - `value`: A pointer to a string that will store the user's typed input.
+- `opts`: Optional configuration functions (functional options pattern).
+
+### Available Options
+
+- `WithInputOnChange(func(value string))`: Executes a callback function whenever the input value changes.
 
 ## Behavior
 

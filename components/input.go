@@ -13,19 +13,23 @@ type Input struct {
 	onChange func(value string)
 }
 
-func NewInput(label string, value *string) *Input {
-	return &Input{
-		label: label,
-		value: value,
+type InputOption func(*Input)
+
+func WithInputOnChange(onChange func(string)) InputOption {
+	return func(i *Input) {
+		i.onChange = onChange
 	}
 }
 
-func NewInputC(label string, value *string, onChange func(string)) *Input {
-	return &Input{
-		label:    label,
-		value:    value,
-		onChange: onChange,
+func NewInput(label string, value *string, opts ...InputOption) *Input {
+	i := &Input{
+		label: label,
+		value: value,
 	}
+	for _, opt := range opts {
+		opt(i)
+	}
+	return i
 }
 
 func (d *Input) GetName() string {
