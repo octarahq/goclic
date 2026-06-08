@@ -16,10 +16,10 @@ import (
 func main() {
     m := menu.NewMenu()
 
-    m.Add(components.NewButton("Submit", func() {
+    m.Add(components.NewButton("Submit", components.WithButtonOnClick(func() {
         // Action to perform on click
         fmt.Println("Button clicked!")
-    }))
+    })))
 
     m.Start()
 }
@@ -27,10 +27,14 @@ func main() {
 
 ## Constructor
 
-### `NewButton(label string, onClick func()) *Button`
+### `NewButton(label string, opts ...ButtonOption) *Button`
 
 - `label`: The text displayed on the button.
-- `onClick`: A callback function that is executed when the button is activated.
+- `opts`: Optional configuration functions (functional options pattern).
+
+### Available Options
+
+- `WithButtonOnClick(func())`: Sets the callback function that is executed when the button is activated.
 
 ## Behavior
 
