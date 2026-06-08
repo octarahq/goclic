@@ -90,7 +90,14 @@ func (m *Menu) Start() error {
 			break
 		}
 
-		if n == 3 && buf[0] == KeyEsc && buf[1] == 91 {
+		activeComp := m.components[m.idX]
+		if interactive, ok := activeComp.(InteractiveComponent); ok {
+			if interactive.HandleInput(buf[:n]) {
+				continue
+			}
+		}
+
+		if n == 3 && buf[0] == 27 && buf[1] == 91 {
 			switch buf[2] {
 			case ArrowUp:
 				for {
@@ -118,11 +125,6 @@ func (m *Menu) Start() error {
 				}
 				continue
 			}
-		}
-
-		activeComp := m.components[m.idX]
-		if interactive, ok := activeComp.(InteractiveComponent); ok {
-			interactive.HandleInput(buf[:n])
 		}
 	}
 

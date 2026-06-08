@@ -8,6 +8,8 @@ const (
 	KeyBackspace byte = 127
 	KeyCtrlC     byte = 3
 	KeyCtrlD     byte = 4
+	KeyOpenBracket byte = 91
+	KeySeqLen    byte = 3
 )
 
 const (
