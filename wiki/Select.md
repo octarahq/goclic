@@ -29,11 +29,16 @@ func main() {
 
 ## Constructor
 
-### `NewSelect(label string, options []string, selected *int) *Select`
+### `NewSelect(label string, options []string, selected *int, opts ...SelectOption) *Select`
 
 - `label`: The title displayed next to the currently selected option.
 - `options`: A slice of strings representing the available choices in the dropdown.
 - `selected`: A pointer to an integer that stores the index of the currently selected option.
+- `opts`: Optional configuration functions (functional options pattern).
+
+### Available Options
+
+- `WithSelectOnChange(func(idx int))`: Executes a callback function whenever the selected option changes.
 
 ## Behavior
 
